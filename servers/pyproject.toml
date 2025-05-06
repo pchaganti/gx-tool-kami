@@ -1,0 +1,17 @@
+[project]
+name = "servers"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "uvicorn", 
+    "starlette", 
+    "mcp[cli]", 
+    "argparse", 
+    "langchain_google_vertexai", 
+    "google-genai", 
+    "google-cloud-aiplatform",
+    "browser_use",
+]
+
