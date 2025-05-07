@@ -17,7 +17,9 @@ async def ask(question: str) -> str:
 
 Devcontainer (`.devcontainer`) included and useable, otherwise proceed with manual install.
 
-Install UV:
+1. Provide credentials in `.env` file.
+
+2. Install UV:
 ```bash
 # OSX/Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -26,7 +28,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Start the MCP server:
+3. Start the MCP server:
 ```bash
 # --reload enables Hot-reloading
 cd servers && PYTHONPATH=. uv run app.py --reload
@@ -36,7 +38,7 @@ cd servers && PYTHONPATH=. uv run app.py --reload
 # cd servers && uv run sync && uv run patchright install chromium
 ```
 
-Start the MCP client (`self-executable UV script`):
+4. Start the MCP client (`self-executable UV script`):
 ```bash
 ./clients/gemini_client.py http://localhost:8081/sse # --debug
 ```
@@ -46,4 +48,4 @@ Start the MCP client (`self-executable UV script`):
 * [ ] System prompt guidelines with single file project templates
 
 ## Limitations
-- This is a customisable sharp tool for now. Guardrails will only be implemeted over time.
+- This is a customisable sharp tool for now. Guardrails will only be implemented over time.

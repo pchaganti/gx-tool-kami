@@ -1,4 +1,5 @@
 from langchain_google_vertexai import ChatVertexAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from browser_use import Agent, Browser, BrowserConfig, BrowserContextConfig
 from pathlib import Path
 import os
@@ -15,11 +16,19 @@ class BrowserModule:
         self._mcp = FastMCP("browser")
         self._mcp_server = self._mcp._mcp_server
 
-        self.llm = ChatVertexAI(
-            model="gemini-2.5-flash-preview-04-17",
-            temperature=0,
-            max_retries=3,
-        )
+        if os.getenv("GEMINI_API_KEY"):
+            os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
+            self.llm = ChatGoogleGenerativeAI(
+                model="gemini-2.5-flash-preview-04-17",
+                temperature=0,
+                max_retries=3,
+            )
+        else:
+            self.llm = ChatVertexAI(
+                model="gemini-2.5-flash-preview-04-17",
+                temperature=0,
+                max_retries=3,
+            )
 
     async def initialize_playwright(self):
         """Initialize Playwright browser connection."""
