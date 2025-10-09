@@ -16,7 +16,7 @@ Commands:
 * `toolkami cd [QUERY]`: Interactive selector
 * `toolkami worktree`: Create worktree from current repo
 * `toolkami sandbox`: Run Docker sandbox from .toolkami/docker-compose.yml
-* `toolkami merge`: worktree changes back to parent repo
+* `toolkami merge`: Merge worktree changes back to parent repo
 * `toolkami drop`: Delete worktree and branch
 
 It is designed to support multiple, concurrent agent workflows:
@@ -31,6 +31,7 @@ curl -sL https://raw.githubusercontent.com/aperoc/toolkami/refs/heads/main/toolk
 chmod +x ~/.local/toolkami.rb
 
 # Add to your shell (bash/zsh)
+echo >> ~/.zshrc # add new line
 echo 'eval "$(ruby ~/.local/toolkami.rb init)"' >> ~/.zshrc
 ```
 
