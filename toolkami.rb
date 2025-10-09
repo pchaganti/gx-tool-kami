@@ -2,6 +2,7 @@
 
 require 'io/console'
 require 'fileutils'
+require 'yaml'
 
 # Double-buffered UI module - adapted from try.rb
 module UI
@@ -504,6 +505,14 @@ if __FILE__ == $0
 
         commands << "mkdir -p #{quoted_toolkami}"
         commands << "cp -r #{quoted_src}/. #{quoted_toolkami}/"
+
+        # After copying, rename the first docker compose service to the directory name (sanitized)
+        compose_dest = File.join(full_path, '.toolkami', 'docker-compose.yml')
+        quoted_compose = "'" + compose_dest.gsub("'", %q('"'"')) + "'"
+        service_name = dir_name.downcase.gsub(/[^a-z0-9_.-]/, '-').gsub(/-+/, '-').sub(/^-+/, '').sub(/-+$/, '')
+        quoted_service = "'" + service_name.gsub("'", %q('"'"')) + "'"
+        ruby_edit = %q{p=ARGV[0]; s=ARGV[1]; l=File.readlines(p); i=l.index{|x| x =~ /^\s*services\s*:/}; if i; j=i+1; while j<l.length && l[j] =~ /^\s*(?:#.*)?$/; j+=1; end; if j<l.length && l[j] =~ /^(\s+)([A-Za-z0-9_.-]+):/; ind=$1; l[j]=l[j].sub(/^(\s+)[A-Za-z0-9_.-]+:/, ind + s + ":"); File.write(p, l.join); end; end}
+        commands << "[ -f #{quoted_compose} ] && ruby -e '#{ruby_edit}' #{quoted_compose} #{quoted_service} || true"
       end
 
       commands << "cd #{quoted_path}"
@@ -616,8 +625,20 @@ if __FILE__ == $0
     # Quote current directory for shell command
     quoted_pwd = "'" + Dir.pwd.gsub("'", %q('"'"')) + "'"
 
+    # Determine service name from compose file, fallback to sanitized directory name
+    service_name = begin
+      data = YAML.safe_load(File.read(compose_path))
+      if data && data['services'].is_a?(Hash) && !data['services'].empty?
+        data['services'].keys.first.to_s
+      else
+        File.basename(Dir.pwd).downcase.gsub(/[^a-z0-9_.-]/, '-').gsub(/-+/, '-').sub(/^-+/, '').sub(/-+$/, '')
+      end
+    rescue
+      File.basename(Dir.pwd).downcase.gsub(/[^a-z0-9_.-]/, '-').gsub(/-+/, '-').sub(/^-+/, '').sub(/-+$/, '')
+    end
+
     # Emit docker compose command
-    puts "cd #{quoted_pwd} && docker compose -f .toolkami/docker-compose.yml run --rm toolkami"
+    puts "cd #{quoted_pwd} && docker compose -f .toolkami/docker-compose.yml run --rm #{service_name}"
 
   when '--help', '-h'
     print_help
