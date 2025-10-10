@@ -347,6 +347,7 @@ if __FILE__ == $0
         toolkami.rb merge          # Merge worktree changes back to parent repo
         toolkami.rb drop           # Delete worktree and branch
         toolkami.rb sandbox        # Run Docker sandbox from .toolkami/docker-compose.yml
+        toolkami.rb sandbox rebuild # Rebuild sandbox image (compose build --no-cache)
 
       Config Selection:
         Place configs in $TOOLKAMI_PATH/.configs/
@@ -625,6 +626,9 @@ if __FILE__ == $0
     # Quote current directory for shell command
     quoted_pwd = "'" + Dir.pwd.gsub("'", %q('"'"')) + "'"
 
+    # Optional subcommand: rebuild
+    subcommand = ARGV.shift
+
     # Determine service name from compose file, fallback to sanitized directory name
     service_name = begin
       data = YAML.safe_load(File.read(compose_path))
@@ -637,8 +641,12 @@ if __FILE__ == $0
       File.basename(Dir.pwd).downcase.gsub(/[^a-z0-9_.-]/, '-').gsub(/-+/, '-').sub(/^-+/, '').sub(/-+$/, '')
     end
 
-    # Emit docker compose command
-    puts "cd #{quoted_pwd} && docker compose -f .toolkami/docker-compose.yml run --rm #{service_name}"
+    # Emit docker compose command(s)
+    if subcommand == 'rebuild'
+      puts "cd #{quoted_pwd} && docker compose -f .toolkami/docker-compose.yml build --no-cache #{service_name}"
+    else
+      puts "cd #{quoted_pwd} && docker compose -f .toolkami/docker-compose.yml run --rm #{service_name}"
+    end
 
   when '--help', '-h'
     print_help
