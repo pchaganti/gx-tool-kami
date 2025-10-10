@@ -567,12 +567,12 @@ if __FILE__ == $0
     # Get branch name for merge
     branch_name = `git rev-parse --abbrev-ref HEAD 2>/dev/null`.strip
 
-    # Emit shell commands: cd to parent and merge the branch, then return to worktree
+    # Emit shell commands: cd to parent and squash-merge the branch, then return to worktree
     if branch_name.empty? || branch_name == "HEAD"
       # Fallback to cherry-pick for detached HEAD
       puts "cd #{quoted_parent} && git cherry-pick #{commit_sha} && cd #{quoted_worktree}"
     else
-      puts "cd #{quoted_parent} && git merge --no-ff #{branch_name} && cd #{quoted_worktree}"
+      puts "cd #{quoted_parent} && git merge --squash #{branch_name} && git commit -m 'squash: merge #{branch_name}' && cd #{quoted_worktree}"
     end
 
   when 'drop'
