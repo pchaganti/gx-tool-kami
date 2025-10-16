@@ -2,7 +2,7 @@
 
 ToolKami is an open sourced ["simple" framework with conceptually clear, independant parts](https://www.youtube.com/watch?v=SxdOUGdseq4) that allows you to build and work seamlessly with AI agents. It comes with a **Command Line Interface** and curated **Tools**.
 
-[![Toolkami framework](images/framework.png)](https://toolkami.com)
+[![Toolkami framework](images/framework-20251016.png)](https://toolkami.com)
 
 ## Command Line Interface (CLI)
 
@@ -23,7 +23,7 @@ Commands:
 
 It is designed to support multiple, concurrent agent workflows:
 
-![Toolkami CLI](images/cli.png)
+![Toolkami CLI](images/cli-20251016.png)
 
 ### Installation
 ```bash
@@ -45,7 +45,7 @@ All the MCP servers can be [distributed as a single file binary, thanks to UV sc
 
 I have elaborated on [default File and Shell tool in this blog post, along with what can be improved](https://blog.toolkami.com/openai-codex-tools/).
 
-![Toolkami Tools](images/tools.png)
+![Toolkami Tools](images/tools-20251016.png)
 
 ### Browse (WIP)
 
