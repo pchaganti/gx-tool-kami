@@ -14,11 +14,12 @@ Commands:
 
 * `toolkami init [PATH]`: Generate shell function
 * `toolkami cd [QUERY]`: Interactive selector
-* `toolkami worktree`: Create worktree from current repo
-* `toolkami sandbox`: Run Docker sandbox from .toolkami/docker-compose.yml
-  * `rebuild`: Re-build service image 
-* `toolkami merge`: Merge worktree changes back to parent repo
-* `toolkami drop`: Delete worktree and branch
+* `toolkami wt [NAME]`: Create worktree from current repo
+  * `merge`: Merge worktree changes back to parent repo
+  * `drop`: Delete worktree and branch
+* `toolkami sb`: Run Docker sandbox from .toolkami/docker-compose.yml
+  * `build [--no-cache]`: Build service image (pass Docker Compose flags like `--no-cache`)
+  * `exec [CMD...]`: Exec into the sandbox container (defaults to interactive `bash`)
 
 It is designed to support multiple, concurrent agent workflows:
 
