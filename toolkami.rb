@@ -238,7 +238,11 @@ class ToolkamiSelector
     unless name
       STDERR.print("\e[2J\e[H\e[?25h")
       UI.puts "Enter name:"
-      STDERR.cooked { name = STDIN.gets.chomp }
+      input = nil
+      STDERR.cooked { input = STDIN.gets }
+      return nil if input.nil?
+
+      name = input.chomp
       return nil if name.empty?
     end
 
@@ -250,7 +254,12 @@ class ToolkamiSelector
 
     # Add date prefix for new directories
     date_prefix = Time.now.strftime("%Y-%m-%d")
-    sanitized_name = name.gsub(/\s+/, '-')
+    sanitized_name = name.strip
+      .gsub(/[\/\\]/, '-')    # prevent path traversal
+      .gsub(/[^a-zA-Z0-9_-]/, '-')
+      .gsub(/-+/, '-')
+      .gsub(/\A-+|-+\z/, '')
+    sanitized_name = 'project' if sanitized_name.empty?
     File.join(@base_path, "#{date_prefix}-#{sanitized_name}")
   end
 end
@@ -308,7 +317,9 @@ class ConfigSelector
       .reject { |e| e.start_with?('.') }
       .select { |name|
         path = File.join(@config_dir, name)
-        File.directory?(path) && File.exist?(File.join(path, 'Dockerfile'))
+        File.directory?(path) &&
+          File.exist?(File.join(path, 'Dockerfile')) &&
+          File.exist?(File.join(path, 'docker-compose.yml'))
       }
       .sort
   end
