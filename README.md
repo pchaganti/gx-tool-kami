@@ -10,6 +10,8 @@ ToolKami is an open sourced ["simple" framework with conceptually clear, indepen
 
 ### Usage
 
+NOTE: `tk` an alias of `toolkami` is available too.
+
 Commands:
 
 * `toolkami init [PATH]`: Generate shell function

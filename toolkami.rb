@@ -497,6 +497,10 @@ if __FILE__ == $0
         esac
         [ $? -eq 0 ] && [ -n "$cmd" ] && eval "$cmd"
       }
+
+      tk() {
+        toolkami "$@"
+      }
     SHELL
 
   when 'cd', nil
