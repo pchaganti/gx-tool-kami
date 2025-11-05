@@ -47,16 +47,6 @@ I have elaborated on [default File and Shell tool in this blog post, along with 
 
 ![Toolkami Tools](images/tools-20251016.png)
 
-### Browse (WIP)
-
-`Browse` tool allows agent to access up-to-date documentations, autonomously evaluate client-side rendering and Javascript errors when development web application.
-
-![Demo of agent browsing the web](images/agent-demo.gif)
-
-You can even feed it to a Vision Language Model (VLM) to get a structured output if a sound or animation is played back correctly.
-
-![Browser VLM](images/vlm.png)
-
 ### Installation
 ```bash
 # Install UV
@@ -84,27 +74,3 @@ A minimal implementation of AlphaEvolve using this framework with [detailed writ
 - [Blog](https://blog.toolkami.com/blog/)
 - [Twitter](https://x.com/tool_kami)
 - [toolkami@aperoc.com](mailto:toolkami@aperoc.com)
-
-## Vision
-
-[![The best DX for structured AI Workflows](images/hero.gif)](mailto:toolkami@aperoc.com)
-
-<span style="color: red;">^^^</span> **Interleave** non-deterministic AI behaviour with normal code execution. First, define your AI workflow in a declarative way in YAML.
-```yml
-name: create_tests
-model: gpt-4.1
-
-tools:
-  - Kami::Tools::Grep
-  - Kami::Tools::EditFile
-
-steps:
-  - git_diff: $(git diff)
-  - Generate a list of tests to write based on the changes.
-  - run_linter: $(rubocop)
-```
-
-<span style="color: red;">^^^</span> Then use **node-based editor** for non-technical members to customize and test prompts.
-![node based editor](images/node-editor.png)
-
-Features marked <span style="color: red;">^^^</span> are in private beta, please [contact us](mailto:toolkami@aperoc.com) for access.
